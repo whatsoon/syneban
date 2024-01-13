@@ -1,0 +1,16 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Syneban
+            version: 0.1.0
+        components:
+            securitySchemes:
+                ApiKey:
+                    type: apiKey
+                    name: BEARER
+                    in: cookie
+        security:
+            - ApiKey: []
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api((?!/doc$)(?!/doc.json$))
