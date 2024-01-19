@@ -55,7 +55,7 @@ class TaskService
         if (isset($dto->title)) {
             $task->setTitle($dto->title);
         }
-        if (isset($dto->columnId)) {
+        if (isset($dto->columnId) && $dto->columnId !== $task->getCol()->getId()) {
             $column = $this->columnService->getColumnOrThrow($dto->columnId, $user);
             $ord = $this->taskRepository->getLastOrdForColumn($dto->columnId);
             $task->setOrd($ord + 1);
