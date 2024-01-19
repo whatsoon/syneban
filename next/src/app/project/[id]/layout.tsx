@@ -2,7 +2,6 @@ import Main from "@/components/Main";
 import { validateId, prependedTitle } from "@/utils/project";
 import { getBoardTitle } from "@/utils/projectServerRequests";
 import { Metadata } from "next";
-import { notFound } from "next/navigation";
 
 type Props = {
   params: { id: string };
@@ -17,10 +16,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const metadata: Metadata = {};
   const validId = validateId(params.id);
-  if (!validId) notFound();
+  if (!validId) return metadata;
 
   const title = await getBoardTitle(validId);
-  if (!title) notFound();
+  if (!title) return metadata;
 
   metadata.title = prependedTitle(title);
   return metadata;

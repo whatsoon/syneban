@@ -9,11 +9,8 @@ import { cookies } from "next/headers";
 export const getBoardTitle: (id: number) => Promise<string | null> = async (id: number) => {
   const res = await fetch(`${process.env.API_HOST}/api/board/${id}`, {
     headers: {
-      Cookie: cookies()
-        .getAll()
-        .map((c) => `${c.name}=${c.value}`)
-        .join("; "),
-    },
+      cookie: cookies().toString(),
+    }
   });
   if (!res.ok) return null;
 
