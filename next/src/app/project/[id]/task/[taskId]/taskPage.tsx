@@ -3,8 +3,8 @@
 import Spinner from "@/components/Spinner";
 import { useProjectDetails } from "@/swr/useProjectDetails";
 import { useUser } from "@/swr/useUser";
-import { getColumnOptions, getTaskAndColumnId } from "@/utils/project";
-import { notFound } from "next/navigation";
+import { getColumnOptions, getProjectRoute, getTaskAndColumnId } from "@/utils/project";
+import { notFound, useRouter } from "next/navigation";
 import TaskPageLayout from "./taskPageLayout";
 import {
   executeWithLoading,
@@ -20,6 +20,7 @@ export function TaskPage({
   projectId: number;
   taskId: number;
 }) {
+  const router = useRouter();
   const { isError: isUserError, isLoading: isUserLoading } = useUser();
   const { project, isError, isLoading, mutate } = useProjectDetails(
     !isUserError && !isUserLoading,
@@ -40,7 +41,8 @@ export function TaskPage({
     executeWithLoading(appDispatch, async () => {
       const res = await fetchUpdateTask(taskId, data);
       if (res.ok) {
-        await mutate();
+        mutate();
+        router.replace(getProjectRoute(projectId));
       }
     });
   }

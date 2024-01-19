@@ -13,11 +13,14 @@ import {
   fetchSwapTask,
   fetchUpdateColumn,
 } from "@/utils/projectRequests";
+import { notFound } from "next/navigation";
 
 export default function ProjectPage({ id }: { id: number }) {
-  const { isError, isLoading } = useUser();
-  const { project, mutate } = useProjectDetails(!isError && !isLoading, id);
+  const { isError: isUserError, isLoading } = useUser();
+  const { project, isError: isProjectError, mutate } = useProjectDetails(!isUserError && !isLoading, id);
   const appDispatch = useAppDispatchContext();
+
+  if (isUserError || isProjectError) notFound();
 
   const createColumn = async (title: string) => {
     executeWithLoading(appDispatch, async () => {
