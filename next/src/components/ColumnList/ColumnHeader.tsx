@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import IconButton from "../Buttons/IconButton";
 import TextField from "../TextField";
 import ConfirmDialog from "../Dialog/ConfirmDialog";
@@ -21,6 +21,10 @@ export default function ColumnHeader({
   const [editMode, setEditMode] = useState(false);
   const [updatedTitle, setUpdatedTitle] = useState(title);
   const [confirmDialog, setConfirmDialog] = useState(false);
+
+  useEffect(() => {
+    setUpdatedTitle(title);
+  }, [title]);
 
   function updateTitle(e: React.FormEvent) {
     e.preventDefault();
